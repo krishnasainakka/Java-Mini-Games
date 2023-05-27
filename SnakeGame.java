@@ -37,6 +37,7 @@ public class SnakeGame extends Frame implements ActionListener {
     int appleX;
     int appleY;
     char direction = 'R';
+    boolean sg = true;
     boolean running = false;
     boolean gameCompleted = true;
    // boolean paused = false;
@@ -248,25 +249,30 @@ public class SnakeGame extends Frame implements ActionListener {
         //CHECK IF HEAD COLLIDES WITH BODY
         for(int i = bodyParts;i>0;i--){
             if((x[0] == x[i]) && (y[0] == y[i])) {
+                sg = false;
                 running = false;
                 break;
             }
         }
         //CHECKING IF HEAD COLLIDES WITH LEFT BORDER
         if(x[0] < 0) {
+            sg = false;
             running = false;
         }
         //CHECKING IF HEAD COLLIDES WITH TOP BORDER
         if(x[0] > BOARD_WIDTH) {
+            sg = false;
             running = false;
         }
 
         //CHECKING IF HEAD COLLIDES WITH RIGHT BORDER
         if(y[0] < 0) {
+            sg = false;
             running = false;
         }
         //CHECKING IF HEAD COLLIDES WITH BOTTOM BORDER
         if(y[0] > BOARD_HEIGHT) {
+            sg = false;
             running = false;
         }
     }
@@ -277,10 +283,14 @@ public class SnakeGame extends Frame implements ActionListener {
         g.setColor(Color.red);
         g.setFont(new Font("Roboto",Font.BOLD,70));
         FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (BOARD_WIDTH - metrics.stringWidth("Game Over"))/2,BOARD_HEIGHT/2);
-        g.drawString("Press ENTER to Start ", (BOARD_WIDTH - metrics.stringWidth("Press ENTER to Start "))/2,(BOARD_HEIGHT/3)*2);
-        g.drawString("Score " + applesEaten, (BOARD_WIDTH - metrics.stringWidth("Score " + applesEaten))/2,g.getFont().getSize());
-
+        if(sg) {
+             g.drawString("Press ENTER to Start ", (BOARD_WIDTH - metrics.stringWidth("Press ENTER to Start "))/2,(BOARD_HEIGHT/3)*2);
+        }
+        else{
+            g.drawString("Game Over", (BOARD_WIDTH - metrics.stringWidth("Game Over"))/2,BOARD_HEIGHT/2);
+            g.drawString("Press ENTER to Start ", (BOARD_WIDTH - metrics.stringWidth("Press ENTER to Start "))/2,(BOARD_HEIGHT/3)*2);
+            g.drawString("Score " + applesEaten, (BOARD_WIDTH - metrics.stringWidth("Score " + applesEaten))/2,g.getFont().getSize());
+        }
 
     }
     public void actionPerformed(ActionEvent e){
